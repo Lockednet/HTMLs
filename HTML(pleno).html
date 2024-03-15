@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>DTunnel</title>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+        :root {
+            --background-img: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 35%, rgba(255,0,0,1) 100%);
+            --logo-img-url: url(https://plenonet.com.br/assets/images/plenonet-512512px-2-512x512.webp);
+
+            --input-border-radius: 5px;
+            --input-background-color: #0a091a55;
+
+            --card-border-radius: 5px;
+            --card-background-color: #0b092868;
+
+            --btn-background-color: #0a091a55;
+            --btn-border-radius: 5px;
+
+            --modal-background-color: #0b092868;
+
+            --text-color: #ffffff;
+            --icon-color: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 465px;
+    background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 35%, rgba(255,0,0,1) 100%);
+}
+
+.logo {
+    width: 100%;
+	margin-bottom: 10px;
+}
+
+.card {
+    background: #080808;
+    border-radius: 20px;
+    border: 1px solid #1e1e1e !important;
+    box-shadow: -8px 12px 20px 0 rgb(13 15 18 / 63%) !important;
+    padding: 15px !important;
+    max-width: 450px;
+    height: auto;
+    position: relative;
+}
+
+        .btn-dark {
+    border: none;
+    background: linear-gradient( to top right, #ff0000, #121212 );
+    border-radius: 15px;
+}
+
+.modal-content {
+    background-color: transparent;
+    backdrop-filter: blur(25px);
+}
+		
+		.tool {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.tool-bt {
+    background: linear-gradient( to top right, #ff0000, #121212 );
+    border-radius: 20px;
+    color: #ffffff !important;
+    height: 35px;
+    width: 100%;
+    border: var(--btn-border);
+}
+
+.input-group, .form-control, .input-group-text {
+    background: #080808;
+    color: var(--icon-color);
+    border: none;
+    border-radius: 15px;
+    outline: none;
+}
+
+        .form-control::placeholder {
+            color: var(--text-color);
+        }
+
+        .form-control:focus {
+            color: var(--text-color);
+            outline: none;
+            box-shadow: none;
+        }
+
+        .input-group-text {
+            padding-right: 0;
+        }
+		
+
+.fs-5 {
+    font-size: 1rem!important;
+}
+
+nav {
+    background: linear-gradient( to top right, #ff0000, #121212 );
+    border-radius: 20px;
+    font-size: 0;
+    width: 100%;
+    max-width: 450px;
+    height: auto;
+    position: relative;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+nav a {
+  line-height: 35px;
+  height: 100%;
+  font-size: 15px;
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+  text-decoration: none;
+  text-align: center;
+  color: white !important;
+  cursor: pointer;
+}
+nav .animation {
+  position: absolute;
+  height: 100%;
+  top: 0;
+  z-index: 0;
+  transition: all .5s ease 0s;
+  border-radius: 8px;
+}
+a:nth-child(1) {
+  width: 30%;
+}
+a:nth-child(2) {
+  width: 30%;
+}
+a:nth-child(3) {
+  width: 40%;
+}
+
+nav .start-home, a:nth-child(1):hover~.animation {
+  width: 30%;
+  left: 0;
+  background-color: #121212;
+  border-radius: 20px;
+}
+nav .start-about, a:nth-child(2):hover~.animation {
+  width: 30%;;
+  left: 30%;
+  background-color: #121212;
+  border-radius: 20px;
+}
+nav .start-blog, a:nth-child(3):hover~.animation {
+  width: 40%;
+  left: 60%;
+  background-color: #121212;
+  border-radius: 20px;
+}
+
+body {
+  font-size: 12px;
+  font-family: sans-serif;
+  background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 35%, rgba(255,0,0,1) 100%);
+}
+
+@media (min-width: 768px) {
+.container, .container-md, .container-sm {
+    max-width: 100%;
+}
+}
+
+.rede {
+color: #ff0000;
+}
+
+.iplocal {
+color: #ffffff;
+}
+
+.containerlocal {
+    background: #080808;
+    border-radius: 20px;
+    border: 1px solid #1e1e1e !important;
+    padding: 15px !important;
+    width: 95%;
+    max-width: 450px;
+    height: auto;
+    position: relative;
+    margin-top: 50px;
+    margin-bottom: -70px;
+}
+
+.hidden {
+  display: none;
+}
+
+    </style>
+</head>
+
+<body>
+    <div class="containerlocal"> 	
+<span class="font-semibold text-xs mr-2" style="color: #ffffff;"">📢	IP Local da sua operadora:</span><span class="rede font-semibold text-xs mr-2" id="name">REDE</span> <span class="iplocal font-semibold text-xs" id="ip">127.0.0.1</span>	
+</div>
+                
+    <div class="container">    
+<div class="card border-0 p-2 shadow mb-3 w-100">
+<span style="color:#ffffff;font-size: 18px;border-radius: 15px;padding: 0px 0px 0px 5px;margin-bottom: 10px;display: block !important;text-align: start;">Plenonet - Versão: 1.6.7</span>
+<img class="logo" src="https://i.ibb.co/z2nx6bF/DT01hvn4ps.png">
+            <div class="input-group mb-2 shadow" id="config-area">
+                <input class="form-control" type="text" placeholder="CONFIGURAÇÃO" readonly title="configurações"
+                    id="config" style="background-color: #080808;" />
+                <span class="input-group-text me-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
+                        class="bi bi:bar-chart" viewBox="0 0 16 16">
+                        <path
+                            d="M4 11H2v3h2v-3zm5-4H7v7h2V7zm5-5v12h-2V2h2zm-2-1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1h-2zM6 7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm-5 4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3z"/></svg>
+							</span>
+            </div>
+            <div class="input-group input mb-2 shadow">
+                <span class="input-group-text">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
+                        class="bi bi:file-person" viewBox="0 0 16 16">
+                        <path
+                            d="M12 1a1 1 0 0 1 1 1v10.755S12 11 8 11s-5 1.755-5 1.755V2a1 1 0 0 1 1-1h8zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4z"/><path d="M8 10a3 3 0 1 0 0-6a3 3 0 0 0 0 6z"/></g></svg>
+                </span>
+                <input class="form-control" type="text" placeholder="usuario" id="username" style="background-color: #080808;" />
+            </div>
+            <div class="input-group input mb-2 shadow">
+                <span class="input-group-text">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi:file-earmark-lock"
+                        viewBox="0 0 16 16">
+                        <path
+                           d="M10 7v1.076c.54.166 1 .597 1 1.224v2.4c0 .816-.781 1.3-1.5 1.3h-3c-.719 0-1.5-.484-1.5-1.3V9.3c0-.627.46-1.058 1-1.224V7a2 2 0 1 1 4 0zM7 7v1h2V7a1 1 0 0 0-2 0zM6 9.3v2.4c0 .042.02.107.105.175A.637.637 0 0 0 6.5 12h3a.64.64 0 0 0 .395-.125c.085-.068.105-.133.105-.175V9.3c0-.042-.02-.107-.105-.175A.637.637 0 0 0 9.5 9h-3a.637.637 0 0 0-.395.125C6.02 9.193 6 9.258 6 9.3z"/><path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/></g></svg>
+						   </span>
+                <input class="form-control" type="password" placeholder="senha" id="password" style="background-color: #080808;" />
+                <span class="input-group-text me-2"
+                    onclick="password.type==`text`?password.type = `password`:password.type = `text`">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye"
+                        viewBox="0 0 16 16">
+                        <path
+                            d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
+                        <path
+                            d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
+                    </svg>
+                </span>
+            </div>
+			     <div class="input-group input mb-2 shadow">
+                <span class="input-group-text">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-key"
+                        viewBox="0 0 16 16">
+                        <path
+                            d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8zm4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5z" />
+                        <path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                    </svg>
+                </span>
+                <input class="form-control" type="text" placeholder="V2ray UUID" id="uuid" style="background: #080808;" />
+                <span class="input-group-text me-2"
+                    onclick="uuid.type==`text`?uuid.type = `password`:uuid.type = `text`">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye"
+                        viewBox="0 0 16 16">
+                        <path
+                            d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
+                        <path
+                            d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
+                    </svg>
+                </span>
+            </div>
+            <button class="btn btn-dark w-100 shadow" id="start-stop">INICIAR</button>
+			      <nav>
+  <a id="sync" onclick="DtStartAppUpdate.execute()">Atualizar</a>
+  <a id="logger">Registro</a>
+  <a onclick="ToolsModal.show()">Ajustes</a>
+  <div class="animation start-home"></div>
+</nav>
+        </div>
+  
+        <div class="card my-3 w-100 text-center border-0 p-2 shadow text-light fs-5 text-uppercase fw-bold" id="state" style="padding: 5px !important; font-size: 15px !important;">
+        </div>
+<p style="color: #5e9ca0;"><span style="color: #ffffff; font-size: 17px;">Plenonet - Conex&otilde;es @2020-2024</span></p>
+  </div>
+    </div>
+    <div class="modal fade" id="checkUserModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content rounded-3 shadow">
+                <div class="modal-header border-bottom-0 pb-0">
+                    <h1 class="modal-title fs-5 chk-title text-light"></h1>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p class="fs-5 mb-0 chk-message text-light"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="errorModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content rounded-3 shadow">
+                <div class="modal-header border-bottom-0 pb-0">
+                    <h1 class="modal-title fs-5 err-title text-light"></h1>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p class="fs-5 mb-0 err-message text-light"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="loggerModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content rounded-3 shadow">
+                <div class="modal-body p-1 text-center">
+                    <ul class="list-group bg-transparent overflow-y-auto logger-content" style="max-height: 600px;">
+                    </ul>
+                </div>
+                <div class="modal-footer flex-nowrap p-0">
+                    <button type="button" class="btn btn-lg btn-dark text-light w-100 clear-logger">LIMPAR</button>
+                    <button type="button" class="btn btn-lg btn-dark text-light w-100"
+                        data-bs-dismiss="modal">FECHAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+	    <div class="tool webm modal fade" index="-1" id="ToolsModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="tool modal-header">
+        <h5 class="modal-title" style="color:#ffffff;">Configurações do aplicativo</h5>
+      </div>
+      <div class="modal-body">
+        <button class="tool-bt rounded-2xl text-white" onclick="DtStartWebViewActivity.execute('https://painel.plenonet.com.br/renovar.php')"><i class="info2 bi bi-globe mr-2"></i>Renovar meu Plano</button>
+        </div>
+        <div class="modal-body">
+        <button class="tool-bt rounded-2xl text-white" onclick="DtStartWebViewActivity.execute('https://docs.plenonet.com.br/instalacao-e-conexao/tutoriais-plenonet')"><i class="info2 bi bi-globe mr-2"></i>Acessar turoriais</button>
+        </div>	
+		<div class="modal-body">
+         <button class="tool-bt rounded-2xl text-white" onclick="DtStartApnActivity.execute()"><i class="info2 bi bi-wifi mr-2"></i>Alterar protocolo de APN</button>
+        </div>
+        <div class="modal-body">
+        <button class="tool-bt rounded-2xl text-white" onclick="DtIgnoreBatteryOptimizations.execute()"><i class="info2 bi bi-battery-full mr-2"></i>Otimizar Bateria</button>
+      </div>
+      <div class="modal-body">
+        <button class="tool-bt rounded-2xl text-white" onclick="DtCleanApp.execute()"><i class="info2 bi bi-trash3 mr-2"></i>Limpar cachê e dados</button>
+        </div>
+		<div class="modal-body">
+		<button class="tool-bt rounded-2xl text-white" onclick="DtStartWebViewActivity.execute('https://docs.plenonet.com.br/termos-de-uso/termos-de-uso-do-aplicativo')"><i class="info2 bi bi-globe mr-2"></i>Termos de uso do aplicativo</button>
+        </div>
+      <div class="tool modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" style="background-color: var(--btn-modal);">FECHAR</button>
+        
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="modal fade" id="configModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content rounded-3 shadow">
+                <div class="modal-header border-bottom-0 pb-0">
+                    <h1 class="modal-title fs-5 text-white">CONFIGURAÇÕES</h1>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-1 text-center">
+                    <ul class="list-group bg-transparent overflow-y-auto config-body" style="max-height: 600px;">
+                        <li class="list-group-item bg-transparent text-white border-0">
+                            <p>CATEGORIA</p>
+                            <ul class="list-group bg-transparent overflow-y-auto text-start">
+                                <li
+                                    class="list-group-item d-flex bg-transparent text-white border-0 border-bottom rounded-0">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/3686/3686811.png" width="40"
+                                        height="40">
+                                    <div class="d-flex flex-column ms-2 w-100">
+                                        <span>CONFIG 01</span>
+                                        <span>DESC 01</span>
+                                    </div>
+                                    <div class="d-flex flex-column ms-2 w-100">
+                                        <span class="text-end">CONFIG_MODE</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+		   <div class="modal fade" id="RenovarModal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content rounded-3 shadow">
+                <div class="modal-header border-bottom-0 py-3">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body ratio rounded-bottom-3" style="height: 600px;">
+                    <div class="spinner d-flex w-100 h-100 align-items-center justify-content-center">
+                        <div class="spinner-border text-light p-5" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                    <iframe class="rounded-bottom-3" id="RenovarFrame"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+		
+		     <script>
+        class AndroidMock {
+            static getLocalIP() {
+                return '192.168.0.1';
+            }
+    
+            static getConfig() {
+                return JSON.stringify({
+                    urlCheckUser: 'URLAQUI'
+                });
+            }
+    
+            static getNetworkName() {
+                return 'REDE';
+            }
+    
+            static openRadioInfo() {
+                console.log('openRadioInfo');
+            }
+        }
+    </script>
+	
+	    <script>
+        function showLocalIP(android) {
+            console.log(android.getNetworkName());
+            document.getElementById('name').innerHTML = ' ' + android.getNetworkName() + ':';
+            document.getElementById('ip').innerHTML = android.getLocalIP();
+    
+            setInterval(() => {
+                document.getElementById('name').innerHTML =
+                    ' ' + android.getNetworkName() + ':';
+                document.getElementById('ip').innerHTML = android.getLocalIP();
+            }, 2000)
+        }
+		
+		        window.onload = function () {
+            const android = window.Android || AndroidMock;
+            showLocalIP(android);
+        }
+		
+		function mostrar(id) {
+  if (document.getElementById(id).style.display !== "none") {
+    document.getElementById(id).style.display = "none";
+    return;
+  }
+  Array.from(document.getElementsByClassName("hidden")).forEach(
+    div => (div.style.display = "none")
+  );
+  document.getElementById(id).style.display = "block";
+}
+		
+		    </script>
+		
+    <script>
+        const configArea = document.querySelector('#config-area')
+        const config = document.querySelector('#config')
+        const username = document.querySelector('#username')
+        const password = document.querySelector('#password')
+		const uuid = document.querySelector('#uuid')
+        const logger = document.querySelector('#logger')
+		
+		const networkStatus = document.querySelector('#section.local-ip')
+		
+        const startStopVpn = document.querySelector('#start-stop')
+        const stateStatus = document.querySelector('#state')
+
+        const loggerModal = new bootstrap.Modal(document.querySelector('#loggerModal'))
+        const checkUserModal = new bootstrap.Modal(document.querySelector('#checkUserModal'))
+        const errorModal = new bootstrap.Modal(document.querySelector('#errorModal'))
+        const configModal = new bootstrap.Modal(document.querySelector('#configModal'))
+		
+		const ToolsModal = new bootstrap.Modal(document.querySelector('#ToolsModal'))
+
+        const clearLogger = document.querySelector('.clear-logger')
+
+        const RenovarModal = new bootstrap.Modal(document.querySelector('#RenovarModal'))
+
+        configArea.addEventListener('click', e => showConfigsModal())
+        username.addEventListener('input', e => DtUsername.set(e.target.value))
+        password.addEventListener('input', e => DtPassword.set(e.target.value))
+		uuid.addEventListener('input', e => DtUuid.set(e.target.value))
+        logger.addEventListener('click', e => loggerModal.show())
+
+        startStopVpn.addEventListener('click', (e) => {
+            if (DtGetVpnState.execute() != 'DISCONNECTED') {
+                DtExecuteVpnStop.execute()
+            } else {
+                DtExecuteVpnStart.execute()
+            }
+        })
+        clearLogger.addEventListener('click', () => DtClearLogs.execute())
+
+        RenovarModal._element.addEventListener('shown.bs.modal', () => {
+            const iframe = document.querySelector('#RenovarFrame');
+            if (!iframe.src) {
+                iframe.src = 'https://painel.plenonet.com.br/renovar.php'
+                iframe.addEventListener('load', () => {
+                    mp3Modal._element.querySelector('.spinner').classList.add('d-none')
+                })
+            }
+        })
+        RenovarModal._element.addEventListener('hide.bs.modal', () => {
+            const iframe = document.querySelector('#RenovarFrame');
+            iframe.src = '';
+        })
+
+        Object.defineProperty(String.prototype, 't', {
+            value: function t() {
+                return window?.DtTranslateText?.execute('' + this) ?? '' + this
+            },
+            writable: true,
+            configurable: true,
+        })
+
+        const dtConfigClickListener = () => {
+            const data = JSON.parse(window?.DtGetDefaultConfig?.execute() || `{ "auth": {}, "mode": "v2ray" }`)
+			const isV2ray = data?.mode?.toLowerCase()?.startsWith('v2ray');
+            config.placeholder = data.name ?? 'LBL_CHOOSE_CONFIG'.t()
+            username.parentElement.style.display = !data?.auth?.username && !isV2ray ? 'flex' : 'none';
+            password.parentElement.style.display = !data?.auth?.password && !isV2ray ? 'flex' : 'none';
+			uuid.parentElement.style.display = !data?.auth?.v2ray_uuid && isV2ray ? 'flex' : 'none';
+        }
+
+        const dtVpnStateListener = state => {
+            const isRunning = state != 'DISCONNECTED';
+
+            stateStatus.innerHTML = ('LBL_STATE_' + state).t()
+            startStopVpn.innerHTML = isRunning ? 'LBL_BTN_STOP'.t() : 'LBL_BTN_START'.t()
+
+            if (isRunning) {
+                username.setAttribute('readonly', 'true')
+                password.setAttribute('readonly', 'true')
+            } else {
+                username.removeAttribute('readonly')
+                password.removeAttribute('readonly')
+            }
+
+            if (state == 'CONNECTING') dtShowSuccessToastListener('Conectando...')
+        }
+
+        const dtCheckUserStartedListener = () => {
+		const data = JSON.parse(window?.DtGetDefaultConfig?.execute() || `{}`)
+		const isV2ray = data?.mode?.toLowerCase()?.startsWith('v2ray');
+            if (isV2ray) return;
+            const html = `
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border p-5" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+            `
+
+            checkUserModal._element.querySelector('.chk-title').textContent = 'CHECK USER'
+            checkUserModal._element.querySelector('.chk-message').innerHTML = html;
+            checkUserModal.show()
+        }
+
+        const dtCheckUserModelListener = model => {
+            const data = JSON.parse(model ?? `{"username": "test"}`)
+            const html = `
+                <div class="d-flex flex-column text-white">
+                    <span>👤Nome de usuario: ${data.username}</span>
+                    <span>📆Expira em: ${data.expiration_date}</span>
+                    <span>📆Dias restantes: ${data.expiration_days}</span>
+                    <span>🚫Conexoes: ${data.count_connections}|${data.limit_connections}</span>
+                </div>
+            `
+
+            checkUserModal._element.querySelector('.chk-title').textContent = '📆 Olá, ' + data.username.toUpperCase() + '👤'
+            checkUserModal._element.querySelector('.chk-message').innerHTML = html;
+            checkUserModal.show()
+        }
+
+        const dtMessageErrorListener = message => {
+            const data = JSON.parse(message)
+            errorModal._element.querySelector('.err-title').textContent = data.title;
+            errorModal._element.querySelector('.err-message').innerHTML = data.content;
+            errorModal.show()
+        }
+
+        const dtOnNewLogListener = () => {
+            const mock = [];
+            for (let i = 0; i < 30; i++) {
+                mock.push({ 'TIME': 'MESSAGE ' + i })
+            }
+
+            const log = window?.DtGetLogs?.execute() || JSON.stringify(mock)
+            const data = JSON.parse(log)
+
+            let content = '';
+            data.forEach(item => {
+                content += '<li class="list-group-item fs-6 bg-transparent text-white p-0 border-0 text-start ms-2 text-wrap">';
+                content += Object.keys(item)[0] + " " + item[Object.keys(item)]
+                content += '</li>';
+            })
+
+            loggerModal._element.querySelector('.logger-content').innerHTML = content;
+            const listGroup = loggerModal._element.querySelector('.list-group')
+            listGroup.scrollTo(0, listGroup.scrollHeight)
+        }
+
+        const dtVpnStartedSuccessListener = () => dtShowSuccessToastListener('Conectado com sucesso')
+
+        const dtVpnStoppedSuccessListener = () => dtShowSuccessToastListener('Desconectado com sucesso')
+
+        const dtShowSuccessToastListener = text => {
+            Toastify({
+                text: text,
+                close: true,
+                style: {
+                    background: 'linear-gradient(to right, #00b09b, #96c93d)',
+                    marginTop: '35px',
+                }
+            }).showToast()
+        }
+
+        const dtShowErrorToastListener = text => {
+            Toastify({
+                text: text,
+                close: true,
+                style: {
+                    background: 'linear-gradient(to right, #ff5c33, #e69900)',
+                    marginTop: '35px',
+                }
+            }).showToast()
+        }
+
+        const showConfigsModal = () => {
+			const mock = '[{"sorter":6,"color":"#6D08041C","name":"CONFIG","id":1393,"items":[{"mode":"V2RAY - VLESS","sorter":4,"tlsVersion":"TLSv1.2","name":"CONFIG 01","icon":"https://cdn-icons-png.flaticon.com/512/8187/8187143.png","id":11803,"status":"ACTIVE"},{"mode":"SSH_DIRECT","sorter":2,"tlsVersion":"TLSv1.2","name":"CONFIG 02","icon":"https://cdn-icons-png.flaticon.com/512/8187/8187143.png","id":28627,"status":"ACTIVE"},{"mode":"OVPN_PROXY","sorter":23,"tlsVersion":"TLSv1.2","name":"CONFIG 03","icon":"https://cdn-icons-png.flaticon.com/512/8187/8187143.png","id":30001,"status":"ACTIVE"}]},{"sorter":2,"color":"#6D08041C","name":"CONFIG 2","id":1846,"items":[{"mode":"SSH_PROXY","sorter":1,"tlsVersion":"TLSv1.2","name":"CONFIG 01","icon":"https://cdn-icons-png.flaticon.com/512/8187/8187143.png","id":26295,"status":"ACTIVE"}]},{"sorter":4,"color":"#80000000","name":"CONFIG 3","id":3310,"items":[{"mode":"SSH_PROXY","sorter":1,"tlsVersion":"TLSv1.2","name":"CONFIG. TEST","icon":"https://cdn-icons-png.flaticon.com/512/8187/8187143.png","id":29997,"status":"ACTIVE"},{"mode":"OVPN_PROXY","sorter":1,"tlsVersion":"TLSv1.2","name":"CONFIG. TEST 2","icon":"https://cdn-icons-png.flaticon.com/512/8187/8187143.png","id":29998,"status":"ACTIVE"}]}]' 
+			const data = JSON.parse(window?.DtGetConfigs?.execute() || mock)
+
+            data.sort((a, b) => a.sorter - b.sorter)
+            data.forEach(item => item.items.sort((a, b) => a.sorter - b.sorter))
+
+            const body = configModal._element.querySelector('.config-body')
+            body.innerHTML = ''
+
+            data.forEach(category => {
+                const categoryElement = document.createElement('li')
+                categoryElement.classList.add('list-group-item', 'bg-transparent', 'text-white', 'border-0', 'mb-1', 'rounded-1', 'px-1')
+                categoryElement.innerHTML = `<span class="fw-bold btn-dark w-100 d-block p-1 rounded-1 mb-1">${category.name}</span>`
+
+                const configUlElement = document.createElement('ul')
+                configUlElement.classList.add('list-group', 'bg-transparent', 'overflow-y-auto')
+
+                category.items.forEach(item => {
+                    const configElement = document.createElement('li')
+                    configElement.classList.add('list-group-item', 'd-flex', 'btn-dark', 'text-white', 'border-0', 'rounded-2', 'px-1', 'py-2', 'mb-1')
+                    configElement.innerHTML = `
+                            <img src="${item.icon}" width="40" height="40">
+                            <div class="text-start d-flex flex-column ms-2 w-100 text-truncate">
+                         <span class="fw-bold text-uppercase" style="font-size: 0.8rem;">${item.name}</span>
+						<span class="fst-italic fw-bold" style="font-size: 0.7rem;">${item.description || ''}</span>                                
+                            </div>
+                            <div class="d-flex flex-column ms-2">
+                                <span class="fst-italic fw-bold text-end text-uppercase text-nowrap" style="font-size: 0.8rem;">${item.mode}</span>
+                            </div>
+                        </li>
+                    `
+                    configElement.addEventListener('click', e => {
+                        window?.DtSetConfig?.execute(item.id)
+                        configModal.hide()
+                    })
+                    configUlElement.appendChild(configElement)
+                })
+
+                categoryElement.appendChild(configUlElement)
+                body.appendChild(categoryElement)
+            })
+
+            configModal.show()
+        }
+
+        username.value = window?.DtUsername?.get() ?? ''
+        password.value = window?.DtPassword?.get() ?? ''
+		uuid.value = window?.DtUuid?.get() ?? ''
+
+        username.placeholder = 'LBL_USERNAME'.t()
+        password.placeholder = 'LBL_PASSWORD'.t()
+		uuid.placeholder = 'LBL_UUID'.t()
+
+        dtOnNewLogListener()
+        dtVpnStateListener(window?.DtGetVpnState?.execute() ?? 'DISCONNECTED')
+        dtConfigClickListener()
+		
+		console.log('Pleno Layouts!🚀')
+    </script>
+
+</body>
+</html>
